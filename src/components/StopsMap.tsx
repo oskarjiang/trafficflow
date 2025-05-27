@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Icon, LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import MarkerClusterGroup from "react-leaflet-markercluster";
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
 // Fix the default marker icon issue in React-Leaflet
 import icon from "leaflet/dist/images/marker-icon.png";
@@ -196,27 +199,35 @@ const StopsMap: React.FC = () => {
         zoom={12}
         style={{ height: "100%", width: "100%" }}
       >
+        {" "}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {stops.map((stop) => (
-          <Marker
-            key={stop.stop_id}
-            position={[stop.stop_lat, stop.stop_lon]}
-            icon={defaultIcon}
-          >
-            <Popup>
-              <div>
-                <h3>{stop.stop_name}</h3>
-                <p>ID: {stop.stop_id}</p>
-                <p>
-                  Coordinates: {stop.stop_lat}, {stop.stop_lon}
-                </p>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
+        <MarkerClusterGroup
+          chunkedLoading={true}
+          maxClusterRadius={50}
+          spiderfyOnMaxZoom={true}
+          disableClusteringAtZoom={16}
+        >
+          {stops.map((stop) => (
+            <Marker
+              key={stop.stop_id}
+              position={[stop.stop_lat, stop.stop_lon]}
+              icon={defaultIcon}
+            >
+              <Popup>
+                <div>
+                  <h3>{stop.stop_name}</h3>
+                  <p>ID: {stop.stop_id}</p>
+                  <p>
+                    Coordinates: {stop.stop_lat}, {stop.stop_lon}
+                  </p>
+                </div>
+              </Popup>
+            </Marker>
+          ))}
+        </MarkerClusterGroup>
       </MapContainer>
     </div>
   );
