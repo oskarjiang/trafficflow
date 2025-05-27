@@ -51,6 +51,12 @@ main {
   margin: 0;
 }
 
+/* Remove default background from Leaflet DIV icons */
+.custom-route-icon {
+  background: none !important;
+  border: none !important;
+}
+
 footer {
   background-color: #f5f5f5;
   padding: 6px;
