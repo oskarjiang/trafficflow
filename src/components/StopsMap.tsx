@@ -48,11 +48,6 @@ const StopsMap: React.FC = () => {
   const [segmentsInfo, setSegmentsInfo] = useState<SegmentInfo | null>(null);
   const [loadedSegments, setLoadedSegments] = useState<number>(0);
 
-  // Get the max number of stops from .env (default to 100 if not specified)
-  const MAX_STOPS = process.env.REACT_APP_MAX_STOPS
-    ? parseInt(process.env.REACT_APP_MAX_STOPS, 10)
-    : 100;
-
   // Center of the map (Göteborg, Sweden)
   const center: LatLngExpression = [57.7089, 11.9746];
 
@@ -148,8 +143,7 @@ const StopsMap: React.FC = () => {
           );
         }
 
-        // Only take up to MAX_STOPS
-        setStops(allStops.slice(0, MAX_STOPS));
+        setStops(allStops);
         setLoading(false);
       } catch (err) {
         console.error("Error loading stops:", err);
@@ -163,7 +157,7 @@ const StopsMap: React.FC = () => {
     };
 
     loadStops();
-  }, [MAX_STOPS]);
+  }, []);
 
   if (loading) {
     return (
