@@ -43,22 +43,13 @@ interface TripDisplayData {
 }
 
 const StopTimesMap: React.FC = () => {
-  const [stopTimes, setStopTimes] = useState<StopTime[]>([]);
-  const [stops, setStops] = useState<Stop[]>([]);
-  const [stopsMap, setStopsMap] = useState<Map<string, Stop>>(new Map());
-  const [stopWithTimesMap, setStopWithTimesMap] = useState<
-    Map<string, StopWithTimes>
-  >(new Map());
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [loadingProgress, setLoadingProgress] = useState<string>("");
   const [stopTimesSegmentsInfo, setStopTimesSegmentsInfo] =
     useState<SegmentInfo | null>(null);
-  const [stopsSegmentsInfo, setStopsSegmentsInfo] =
-    useState<SegmentInfo | null>(null);
   const [loadedStopTimesSegments, setLoadedStopTimesSegments] =
     useState<number>(0);
-  const [loadedStopsSegments, setLoadedStopsSegments] = useState<number>(0);
   const [activeTrips, setActiveTrips] = useState<TripDisplayData[]>([]);
   // Using centralized map configuration
 
@@ -75,7 +66,6 @@ const StopTimesMap: React.FC = () => {
         }
 
         const stopsInfo: SegmentInfo = await stopsInfoResponse.json();
-        setStopsSegmentsInfo(stopsInfo);
 
         // Step 2: Load stops segments sequentially
         const allStops: Stop[] = [];
@@ -107,7 +97,6 @@ const StopTimesMap: React.FC = () => {
             stopsMap.set(stop.stop_id, stop);
           }
 
-          setLoadedStopsSegments(i + 1);
           setLoadingProgress(
             `Processed ${i + 1} of ${
               stopsInfo.segments.length
@@ -115,8 +104,6 @@ const StopTimesMap: React.FC = () => {
           );
         }
 
-        setStops(allStops);
-        setStopsMap(stopsMap);
         setLoadingProgress("Stops loaded successfully. Loading stop times...");
 
         // Step 3: Load segments info for stop times
@@ -187,9 +174,6 @@ const StopTimesMap: React.FC = () => {
           );
         }
 
-        setStopTimes(allStopTimes);
-        setStopWithTimesMap(stopWithTimesMap);
-
         // Get active trips using the timeUtils function
         const activeTripMap = getActiveTrips(allStopTimes);
 
@@ -209,7 +193,7 @@ const StopTimesMap: React.FC = () => {
                 stopTimes: [stopTime],
               });
             }
-          }        // Only add trips with at least 2 stops (to show a line)
+          } // Only add trips with at least 2 stops (to show a line)
           if (tripStops.length >= 2) {
             tripDisplayData.push({
               tripId,
@@ -310,7 +294,7 @@ const StopTimesMap: React.FC = () => {
                 </Popup>
               </Marker>
             ))
-          }
+          )}
         </MarkerClusterGroup>
       </BaseMap>
     </div>
