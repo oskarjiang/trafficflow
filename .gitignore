@@ -24,3 +24,5 @@ yarn-error.log*
 
 # GTFS info
 /gtfs_vt
+
+.env
