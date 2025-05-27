@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import "./App.css";
 import StopsMap from "./components/StopsMap";
 import ShapesMap from "./components/ShapesMap";
+import StopTimesMap from "./components/StopTimesMap";
+
+type ViewMode = "stops" | "shapes" | "stopTimes";
 
 function App() {
-  const [showShapes, setShowShapes] = useState<boolean>(false);
+  const [viewMode, setViewMode] = useState<ViewMode>();
 
   return (
     <div className="App">
@@ -12,20 +15,36 @@ function App() {
         <h1>TrafficFlow - Transit Visualization</h1>
         <div className="view-toggle">
           <button
-            onClick={() => setShowShapes(false)}
-            className={!showShapes ? "active" : ""}
+            onClick={() => setViewMode("stops")}
+            className={viewMode === "stops" ? "active" : ""}
           >
             View Stops
           </button>
           <button
-            onClick={() => setShowShapes(true)}
-            className={showShapes ? "active" : ""}
+            onClick={() => setViewMode("shapes")}
+            className={viewMode === "shapes" ? "active" : ""}
           >
             View Shapes
           </button>
+          <button
+            onClick={() => setViewMode("stopTimes")}
+            className={viewMode === "stopTimes" ? "active" : ""}
+          >
+            View Stop Times
+          </button>
         </div>
       </header>
-      <main>{showShapes ? <ShapesMap /> : <StopsMap />}</main>
+      <main>
+        {viewMode === "shapes" ? (
+          <ShapesMap />
+        ) : viewMode === "stopTimes" ? (
+          <StopTimesMap />
+        ) : viewMode === "stops" ? (
+          <StopsMap />
+        ) : (
+          <div />
+        )}
+      </main>
       <footer>
         <p>Data from GTFS feed - Västtrafik</p>
       </footer>

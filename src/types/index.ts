@@ -43,3 +43,19 @@ export interface Stop {
   parent_station?: string;
   platform_code?: string;
 }
+
+// Define the StopTime interface
+export interface StopTime {
+  trip_id: string;
+  arrival_time: string;
+  departure_time: string;
+  stop_id: string;
+  stop_sequence: number;
+  stop_headsign?: string;
+  pickup_type?: number;
+  drop_off_type?: number;
+  shape_dist_traveled?: number;
+  timepoint?: number;
+  pickup_booking_rule_id?: string;
+  drop_off_booking_rule_id?: string;
+}
