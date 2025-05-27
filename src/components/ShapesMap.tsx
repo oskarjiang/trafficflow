@@ -2,39 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Polyline, Popup } from "react-leaflet";
 import { LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
-
-// Define interfaces for segment information
-interface SegmentInfo {
-  totalSegments: number;
-  totalLines: number;
-  dataLines: number;
-  linesPerSegment: number;
-  segments: {
-    filename: string;
-    index: number;
-  }[];
-}
-
-// Define the Shape interface
-interface ShapePoint {
-  shape_id: string;
-  shape_pt_lat: number;
-  shape_pt_lon: number;
-  shape_pt_sequence: number;
-  shape_dist_traveled: number;
-}
-
-// Define the GeoJSON interface
-interface GeoJsonFeature {
-  type: string;
-  geometry: {
-    type: string;
-    coordinates: number[][];
-  };
-  properties: {
-    shape_id: string;
-  };
-}
+import { SegmentInfo, ShapePoint, GeoJsonFeature } from "../types";
 
 const ShapesMap: React.FC = () => {
   const [shapes, setShapes] = useState<GeoJsonFeature[]>([]);

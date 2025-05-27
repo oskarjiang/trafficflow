@@ -9,29 +9,7 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 // Fix the default marker icon issue in React-Leaflet
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
-
-// Define interfaces for segment information
-interface SegmentInfo {
-  totalSegments: number;
-  totalLines: number;
-  dataLines: number;
-  linesPerSegment: number;
-  segments: {
-    filename: string;
-    index: number;
-  }[];
-}
-
-// Define the Stop interface
-export interface Stop {
-  stop_id: string;
-  stop_name: string;
-  stop_lat: number;
-  stop_lon: number;
-  location_type: number;
-  parent_station?: string;
-  platform_code?: string;
-}
+import { SegmentInfo, Stop } from "../types";
 
 const defaultIcon = new Icon({
   iconUrl: icon,
