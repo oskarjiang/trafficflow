@@ -1,0 +1,488 @@
+[
+  {
+    "stop_id": "9021014001004000",
+    "stop_name": "Amhult Resecentrum",
+    "stop_lat": 57.709556,
+    "stop_lon": 11.780167,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001005000",
+    "stop_name": "Backa Bergö",
+    "stop_lat": 57.749828,
+    "stop_lon": 11.996428,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001020000",
+    "stop_name": "Akkas Gata",
+    "stop_lat": 57.754227,
+    "stop_lon": 11.980696,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001025000",
+    "stop_name": "Alelyckan",
+    "stop_lat": 57.753062,
+    "stop_lon": 12.011173,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001030000",
+    "stop_name": "Lexbyvägen",
+    "stop_lat": 57.762975,
+    "stop_lon": 11.835789,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001031000",
+    "stop_name": "Vrångö",
+    "stop_lat": 57.570318,
+    "stop_lon": 11.792013,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001033000",
+    "stop_name": "Sjumansholmen",
+    "stop_lat": 57.593918,
+    "stop_lon": 11.768958,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001034000",
+    "stop_name": "Kårholmen",
+    "stop_lat": 57.591258,
+    "stop_lon": 11.781982,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001035000",
+    "stop_name": "Donsö",
+    "stop_lat": 57.59977,
+    "stop_lon": 11.793988,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001036000",
+    "stop_name": "Styrsö Skäret",
+    "stop_lat": 57.60388,
+    "stop_lon": 11.790913,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001038000",
+    "stop_name": "Styrsö Bratten",
+    "stop_lat": 57.616118,
+    "stop_lon": 11.794255,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001039000",
+    "stop_name": "Köpstadsö",
+    "stop_lat": 57.625188,
+    "stop_lon": 11.809557,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001040000",
+    "stop_name": "Allhelgonakyrkan",
+    "stop_lat": 57.757347,
+    "stop_lon": 12.036696,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001043000",
+    "stop_name": "Stora Förö",
+    "stop_lat": 57.629837,
+    "stop_lon": 11.854056,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001044000",
+    "stop_name": "Knarrholmen",
+    "stop_lat": 57.625994,
+    "stop_lon": 11.828687,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001045000",
+    "stop_name": "Asperö Östra",
+    "stop_lat": 57.649256,
+    "stop_lon": 11.807275,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001048000",
+    "stop_name": "Asperö Norra",
+    "stop_lat": 57.65067,
+    "stop_lon": 11.792497,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001049000",
+    "stop_name": "Brännö Rödsten",
+    "stop_lat": 57.648525,
+    "stop_lon": 11.785528,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001050000",
+    "stop_name": "Almedal",
+    "stop_lat": 57.687162,
+    "stop_lon": 11.99702,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001061000",
+    "stop_name": "Källö",
+    "stop_lat": 57.623154,
+    "stop_lon": 11.780752,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001062000",
+    "stop_name": "Styrsö Tången",
+    "stop_lat": 57.621499,
+    "stop_lon": 11.769774,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001064000",
+    "stop_name": "Vargö",
+    "stop_lat": 57.623379,
+    "stop_lon": 11.757209,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001066000",
+    "stop_name": "Brännö Husvik",
+    "stop_lat": 57.635354,
+    "stop_lon": 11.76675,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001070000",
+    "stop_name": "Amhults Torg",
+    "stop_lat": 57.710024,
+    "stop_lon": 11.774197,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001075000",
+    "stop_name": "Angered Centrum",
+    "stop_lat": 57.79607,
+    "stop_lon": 12.049207,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001076000",
+    "stop_name": "Angered C Ers.hpl",
+    "stop_lat": 57.795743,
+    "stop_lon": 12.047147,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001077000",
+    "stop_name": "Angeredsvinkeln",
+    "stop_lat": 57.800435,
+    "stop_lon": 12.043683,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001080000",
+    "stop_name": "Angereds Kyrka",
+    "stop_lat": 57.788298,
+    "stop_lon": 12.095968,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001082000",
+    "stop_name": "Angereds Storåsväg",
+    "stop_lat": 57.77286,
+    "stop_lon": 12.050564,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001085000",
+    "stop_name": "Vättleskolan",
+    "stop_lat": 57.800804,
+    "stop_lon": 12.063045,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001090000",
+    "stop_name": "Anekdotgatan",
+    "stop_lat": 57.727332,
+    "stop_lon": 11.964407,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001100000",
+    "stop_name": "Annedalskyrkan",
+    "stop_lat": 57.685619,
+    "stop_lon": 11.954675,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001110000",
+    "stop_name": "Anneholmsgatan",
+    "stop_lat": 57.697042,
+    "stop_lon": 12.003974,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001115000",
+    "stop_name": "Tagenevägen 11",
+    "stop_lat": 57.769538,
+    "stop_lon": 11.992251,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001119000",
+    "stop_name": "Aprikosgatan",
+    "stop_lat": 57.647873,
+    "stop_lon": 11.872008,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001120000",
+    "stop_name": "Aprilgatan",
+    "stop_lat": 57.761113,
+    "stop_lon": 12.041331,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001130000",
+    "stop_name": "Arendal Portal",
+    "stop_lat": 57.697986,
+    "stop_lon": 11.826002,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001133000",
+    "stop_name": "Arendals Allé",
+    "stop_lat": 57.697754,
+    "stop_lon": 11.814959,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001136000",
+    "stop_name": "Arendal Skans",
+    "stop_lat": 57.696496,
+    "stop_lon": 11.818561,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001137000",
+    "stop_name": "Arendal Norra",
+    "stop_lat": 57.706016,
+    "stop_lon": 11.815375,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001140000",
+    "stop_name": "Arendalsvägen",
+    "stop_lat": 57.705326,
+    "stop_lon": 11.850999,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001142000",
+    "stop_name": "Arendal Terminal",
+    "stop_lat": 57.699961,
+    "stop_lon": 11.809812,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001150000",
+    "stop_name": "Armlängdsgatan",
+    "stop_lat": 57.660816,
+    "stop_lon": 11.934385,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001160000",
+    "stop_name": "Aröds Äng",
+    "stop_lat": 57.734698,
+    "stop_lon": 11.957522,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001170000",
+    "stop_name": "Askesby",
+    "stop_lat": 57.785916,
+    "stop_lon": 11.878679,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001173000",
+    "stop_name": "Askims Stationsväg",
+    "stop_lat": 57.635302,
+    "stop_lon": 11.931928,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001175000",
+    "stop_name": "Askimsbadet",
+    "stop_lat": 57.626116,
+    "stop_lon": 11.934144,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001178000",
+    "stop_name": "Askims Kyrka",
+    "stop_lat": 57.615398,
+    "stop_lon": 11.942116,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001179000",
+    "stop_name": "Askims Svartmosse",
+    "stop_lat": 57.629925,
+    "stop_lon": 11.964603,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001190000",
+    "stop_name": "Assmundtorp",
+    "stop_lat": 57.787893,
+    "stop_lon": 11.926808,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001192000",
+    "stop_name": "Astronomgatan",
+    "stop_lat": 57.759497,
+    "stop_lon": 12.057185,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001195000",
+    "stop_name": "Atmosfärgatan",
+    "stop_lat": 57.75118,
+    "stop_lon": 12.063611,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001200000",
+    "stop_name": "Axel Dahlströms Torg",
+    "stop_lat": 57.67244,
+    "stop_lon": 11.927448,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  },
+  {
+    "stop_id": "9021014001210000",
+    "stop_name": "Backa",
+    "stop_lat": 57.636815,
+    "stop_lon": 11.944303,
+    "location_type": 1,
+    "parent_station": "",
+    "platform_code": ""
+  }
+]
