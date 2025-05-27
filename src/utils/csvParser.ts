@@ -1,4 +1,4 @@
-import { ShapePoint, Stop } from "../types";
+import { ShapePoint, Stop, StopTime } from "../types";
 
 /**
  * Base function to parse any CSV data with headers in first segment
@@ -82,6 +82,42 @@ export const parseStopData = (
         platform_code: values.length > 6 && values[6] ? values[6] : undefined,
       });
     }
+  }
+
+  return result;
+};
+
+/**
+ * Parse CSV data into stop time objects
+ * @param text CSV text content
+ * @param isFirstSegment Whether this is the first segment (contains headers)
+ * @returns Array of StopTime objects
+ */
+export const parseStopTimeData = (
+  text: string,
+  isFirstSegment: boolean
+): StopTime[] => {
+  const parsedRows = parseCSV(text, isFirstSegment);
+  const result: StopTime[] = [];
+
+  for (const values of parsedRows) {
+    if (values.length < 5) continue;
+
+    result.push({
+      trip_id: values[0],
+      arrival_time: values[1],
+      departure_time: values[2],
+      stop_id: values[3],
+      stop_sequence: parseInt(values[4], 10),
+      stop_headsign: values.length > 5 ? values[5] : undefined,
+      pickup_type: values.length > 6 ? parseInt(values[6], 10) : undefined,
+      drop_off_type: values.length > 7 ? parseInt(values[7], 10) : undefined,
+      shape_dist_traveled:
+        values.length > 8 ? parseFloat(values[8]) : undefined,
+      timepoint: values.length > 9 ? parseInt(values[9], 10) : undefined,
+      pickup_booking_rule_id: values.length > 10 ? values[10] : undefined,
+      drop_off_booking_rule_id: values.length > 11 ? values[11] : undefined,
+    });
   }
 
   return result;
