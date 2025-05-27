@@ -4,7 +4,13 @@ const csv = require("csvtojson");
 
 // Path to the stops.txt file and output JSON file
 const stopsFilePath = path.join(__dirname, "..", "gtfs_vt", "stops.txt");
-const outputFilePath = path.join(__dirname, "public", "data", "stops.json");
+const outputFilePath = path.join(
+  __dirname,
+  "..",
+  "public",
+  "data",
+  "stops.json"
+);
 
 // Convert CSV to JSON
 (async () => {
