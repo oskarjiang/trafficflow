@@ -31,10 +31,9 @@ async function countLines() {
 async function splitFile(totalLines) {
   // Get the header line
   const firstLine = fs.readFileSync(inputFilePath, "utf8").split("\n")[0];
-
   // Calculate lines per segment (excluding header)
   const dataLines = totalLines - 1;
-  const linesPerSegment = Math.ceil(dataLines / 5);
+  const linesPerSegment = Math.ceil(dataLines / 10);
 
   console.log(`Total lines: ${totalLines}`);
   console.log(`Lines per segment: ${linesPerSegment}`);
@@ -61,13 +60,11 @@ async function splitFile(totalLines) {
     if (lineIndex === 0) {
       lineIndex++;
       continue;
-    }
-
-    // Check if we need to start a new segment file
+    } // Check if we need to start a new segment file
     if (
       lineIndex > 0 &&
       (lineIndex - 1) % linesPerSegment === 0 &&
-      currentSegment < 5
+      currentSegment < 10
     ) {
       // Close current file
       outputStream.end();
@@ -94,14 +91,13 @@ async function splitFile(totalLines) {
   // Close the last file
   outputStream.end();
   console.log(`Completed splitting into ${currentSegment} segments`);
-
   // Create a metadata file with information about the segments
   const metadata = {
-    totalSegments: 5,
+    totalSegments: 10,
     totalLines: totalLines,
     dataLines: dataLines,
     linesPerSegment: linesPerSegment,
-    segments: Array.from({ length: 5 }, (_, i) => ({
+    segments: Array.from({ length: 10 }, (_, i) => ({
       filename: `shapes_part${i + 1}.txt`,
       index: i + 1,
     })),
