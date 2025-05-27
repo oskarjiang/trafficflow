@@ -82,3 +82,39 @@ export const getActiveTrips = (
 
   return activeTrips;
 };
+
+/**
+ * For an active trip, find the latest stop that has been passed
+ * @param stopTimes Array of StopTime objects for a specific trip (sorted by stop_sequence)
+ * @param currentTimeInMinutes Current time in minutes since midnight (optional)
+ * @returns Index of the latest passed stop in the sorted stop times array, or -1 if none have been passed
+ */
+export const findLatestPassedStopIndex = (
+  stopTimes: StopTime[],
+  currentTimeInMinutes?: number
+): number => {
+  if (!stopTimes || stopTimes.length === 0) return -1;
+
+  // Sort stops by sequence
+  const sortedStops = [...stopTimes].sort(
+    (a, b) => a.stop_sequence - b.stop_sequence
+  );
+
+  // Use provided time or get current time
+  const currentMins = currentTimeInMinutes ?? currentTimeToMinutes();
+
+  // Find the latest stop that has been passed (arrival time <= current time)
+  let latestPassedIndex = -1;
+
+  for (let i = 0; i < sortedStops.length; i++) {
+    const stopArrivalTime = timeStringToMinutes(sortedStops[i].arrival_time);
+    if (stopArrivalTime <= currentMins) {
+      latestPassedIndex = i;
+    } else {
+      // Stop iterating once we find a stop that hasn't been passed
+      break;
+    }
+  }
+
+  return latestPassedIndex;
+};

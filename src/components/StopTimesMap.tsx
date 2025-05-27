@@ -9,7 +9,11 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import { SegmentInfo, Stop, StopTime } from "../types";
 import { parseStopTimeData, parseStopData } from "../utils/csvParser";
 import { BaseMap, ErrorMessage, LoadingIndicator } from "./common";
-import { getActiveTrips } from "../utils/timeUtils";
+import {
+  getActiveTrips,
+  currentTimeToMinutes,
+  timeStringToMinutes,
+} from "../utils/timeUtils";
 
 interface StopWithTimes {
   stop: Stop;
@@ -20,6 +24,7 @@ interface TripDisplayData {
   tripId: string;
   stops: StopWithTimes[];
   color: string;
+  latestPassedStopIndex: number; // Index of the latest passed stop
 }
 
 const StopTimesMap: React.FC = () => {
@@ -144,16 +149,19 @@ const StopTimesMap: React.FC = () => {
         }
 
         // Get active trips using the timeUtils function
-        const activeTripMap = getActiveTrips(allStopTimes);
-
-        // Process active trips into display data with colors
+        const activeTripMap = getActiveTrips(allStopTimes); // Process active trips into display data with colors
         const tripDisplayData: TripDisplayData[] = [];
-
         Array.from(activeTripMap.keys()).forEach((tripId) => {
           const tripStopTimes = activeTripMap.get(tripId) || [];
           tripStopTimes.sort((a, b) => a.stop_sequence - b.stop_sequence);
 
+          // Calculate the current time in minutes
+          const currentTime = currentTimeToMinutes();
+
+          // Create the array of stops for this trip
           const tripStops: StopWithTimes[] = [];
+
+          // Build the stops array
           for (const stopTime of tripStopTimes) {
             const stopWithTime = stopWithTimesMap.get(stopTime.stop_id);
             if (stopWithTime) {
@@ -162,12 +170,31 @@ const StopTimesMap: React.FC = () => {
                 stopTimes: [stopTime],
               });
             }
-          } // Only add trips with at least 2 stops (to show a line)
+          }
+
+          // Only add trips with at least 2 stops (to show a line)
           if (tripStops.length >= 2) {
+            // Find the index of the last stop that has been passed based on arrival time
+            let latestPassedStopIndex = -1;
+
+            for (let i = 0; i < tripStops.length; i++) {
+              const stopTime = tripStops[i].stopTimes[0];
+              if (
+                stopTime &&
+                timeStringToMinutes(stopTime.arrival_time) <= currentTime
+              ) {
+                latestPassedStopIndex = i;
+              } else {
+                // Break once we find a stop that hasn't been passed
+                break;
+              }
+            }
+
             tripDisplayData.push({
               tripId,
               stops: tripStops,
               color: getRandomColor(),
+              latestPassedStopIndex,
             });
           }
         });
@@ -184,6 +211,16 @@ const StopTimesMap: React.FC = () => {
     loadStops();
   }, []);
 
+  // Generate random color for each shape
+  const getRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
   if (loading) {
     return (
       <LoadingIndicator
@@ -198,28 +235,39 @@ const StopTimesMap: React.FC = () => {
   if (error) {
     return <ErrorMessage message={error} />;
   }
-
   return (
     <div className="stop-times-map-container" style={{ height: "100vh" }}>
       <BaseMap className="stop-times-map">
-        {/* Display all active trip routes */}
+        {/* Display all active trip routes, but only from the latest passed stop */}
         {activeTrips.map((tripData) => {
-          const tripPolyline = tripData.stops.map(
-            (stopWithTime) =>
-              [
-                stopWithTime.stop.stop_lat,
-                stopWithTime.stop.stop_lon,
-              ] as LatLngExpression
+          // Get the index in the stops array that corresponds to the latest passed stop
+          const latestStopIndex = tripData.stops.findIndex(
+            (_, index) => index >= tripData.latestPassedStopIndex
           );
 
-          return (
+          // Get coordinates only from the latest passed stop onward
+          const startIndex = Math.max(0, latestStopIndex);
+
+          // Create polyline from the latest passed stop to the end
+          const tripPolyline = tripData.stops
+            .slice(startIndex)
+            .map(
+              (stopWithTime) =>
+                [
+                  stopWithTime.stop.stop_lat,
+                  stopWithTime.stop.stop_lon,
+                ] as LatLngExpression
+            );
+
+          // Only render if we have at least 2 points for the polyline
+          return tripPolyline.length >= 2 ? (
             <Polyline
               key={tripData.tripId}
               positions={tripPolyline}
               color={tripData.color}
               weight={3}
             />
-          );
+          ) : null;
         })}
       </BaseMap>
     </div>
@@ -227,6 +275,3 @@ const StopTimesMap: React.FC = () => {
 };
 
 export default StopTimesMap;
-function getRandomColor(): string {
-  throw new Error("Function not implemented.");
-}
