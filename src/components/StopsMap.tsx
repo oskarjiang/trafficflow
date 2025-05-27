@@ -12,6 +12,7 @@ import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import { SegmentInfo, Stop } from "../types";
 import { parseStopData } from "../utils/csvParser";
 import { MAP_CENTER, MAP_CONFIG } from "../constants/mapConfig";
+import { ErrorMessage } from "./common";
 
 const defaultIcon = new Icon({
   iconUrl: icon,
@@ -26,7 +27,7 @@ const StopsMap: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loadingProgress, setLoadingProgress] = useState<string>("");
   const [segmentsInfo, setSegmentsInfo] = useState<SegmentInfo | null>(null);
-  const [loadedSegments, setLoadedSegments] = useState<number>(0);  // Using centralized map configuration
+  const [loadedSegments, setLoadedSegments] = useState<number>(0); // Using centralized map configuration
 
   useEffect(() => {
     const loadStops = async () => {
@@ -124,11 +125,11 @@ const StopsMap: React.FC = () => {
       </div>
     );
   }
-
   if (error) {
-    return <div className="error-message">{error}</div>;
+    return <ErrorMessage message={error} />;
   }
-  return (    <div className="map-container">
+  return (
+    <div className="map-container">
       <h2>Transit Stops Map</h2>
       <MapContainer
         center={MAP_CENTER}

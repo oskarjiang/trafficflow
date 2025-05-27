@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import { SegmentInfo, ShapePoint, GeoJsonFeature } from "../types";
 import { parseShapeData } from "../utils/csvParser";
 import { MAP_CENTER, MAP_CONFIG } from "../constants/mapConfig";
+import { ErrorMessage } from "./common";
 
 const ShapesMap: React.FC = () => {
   const [shapes, setShapes] = useState<GeoJsonFeature[]>([]);
@@ -185,7 +186,7 @@ const ShapesMap: React.FC = () => {
           )}
         </div>
       )}
-      {error && <div className="error-message">{error}</div>}{" "}
+      <ErrorMessage message={error} />
       {!loading && !error && (
         <MapContainer
           center={MAP_CENTER}
