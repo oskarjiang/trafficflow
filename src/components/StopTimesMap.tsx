@@ -12,6 +12,7 @@ import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import { SegmentInfo, Stop, StopTime } from "../types";
 import { parseStopTimeData, parseStopData } from "../utils/csvParser";
 import { BaseMap, ErrorMessage, LoadingIndicator } from "./common";
+import { getActiveTrips } from "../utils/timeUtils";
 
 const defaultIcon = new Icon({
   iconUrl: icon,
@@ -23,6 +24,22 @@ const defaultIcon = new Icon({
 interface StopWithTimes {
   stop: Stop;
   stopTimes: StopTime[];
+}
+
+// Generate random colors for trip routes
+const getRandomColor = (): string => {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+interface TripDisplayData {
+  tripId: string;
+  stops: StopWithTimes[];
+  color: string;
 }
 
 const StopTimesMap: React.FC = () => {
@@ -42,10 +59,7 @@ const StopTimesMap: React.FC = () => {
   const [loadedStopTimesSegments, setLoadedStopTimesSegments] =
     useState<number>(0);
   const [loadedStopsSegments, setLoadedStopsSegments] = useState<number>(0);
-  const [selectedTrip, setSelectedTrip] = useState<string | null>(null);
-  const [tripStops, setTripStops] = useState<StopWithTimes[]>([]);
-  // Sample trip IDs for demo purposes (we'll load the first 20 unique trip IDs)
-  const [availableTrips, setAvailableTrips] = useState<string[]>([]);
+  const [activeTrips, setActiveTrips] = useState<TripDisplayData[]>([]);
   // Using centralized map configuration
 
   useEffect(() => {
@@ -119,7 +133,6 @@ const StopTimesMap: React.FC = () => {
         // Step 4: Load stop times segments sequentially (only the first segment for demo)
         const allStopTimes: StopTime[] = [];
         const stopWithTimesMap = new Map<string, StopWithTimes>();
-        const uniqueTripIds = new Set<string>();
 
         // Only load the first segment for demo purposes
         const maxSegmentsToLoad = 1;
@@ -151,7 +164,6 @@ const StopTimesMap: React.FC = () => {
           // Process stop times and link to stops
           for (const stopTime of stopTimes) {
             allStopTimes.push(stopTime);
-            uniqueTripIds.add(stopTime.trip_id);
 
             const stop = stopsMap.get(stopTime.stop_id);
             if (stop) {
@@ -178,14 +190,36 @@ const StopTimesMap: React.FC = () => {
         setStopTimes(allStopTimes);
         setStopWithTimesMap(stopWithTimesMap);
 
-        // Get the first 20 unique trip IDs for the demo
-        const tripIds = Array.from(uniqueTripIds).slice(0, 20);
-        setAvailableTrips(tripIds);
+        // Get active trips using the timeUtils function
+        const activeTripMap = getActiveTrips(allStopTimes);
 
-        if (tripIds.length > 0) {
-          setSelectedTrip(tripIds[0]);
-        }
+        // Process active trips into display data with colors
+        const tripDisplayData: TripDisplayData[] = [];
 
+        Array.from(activeTripMap.keys()).forEach((tripId) => {
+          const tripStopTimes = activeTripMap.get(tripId) || [];
+          tripStopTimes.sort((a, b) => a.stop_sequence - b.stop_sequence);
+
+          const tripStops: StopWithTimes[] = [];
+          for (const stopTime of tripStopTimes) {
+            const stopWithTime = stopWithTimesMap.get(stopTime.stop_id);
+            if (stopWithTime) {
+              tripStops.push({
+                stop: stopWithTime.stop,
+                stopTimes: [stopTime],
+              });
+            }
+          }        // Only add trips with at least 2 stops (to show a line)
+          if (tripStops.length >= 2) {
+            tripDisplayData.push({
+              tripId,
+              stops: tripStops,
+              color: getRandomColor(),
+            });
+          }
+        });
+
+        setActiveTrips(tripDisplayData);
         setLoading(false);
       } catch (err: any) {
         console.error("Error loading stop times:", err);
@@ -197,28 +231,6 @@ const StopTimesMap: React.FC = () => {
     loadStops();
   }, []);
 
-  // Update trip stops when selected trip changes
-  useEffect(() => {
-    if (selectedTrip) {
-      const filteredStopTimes = stopTimes
-        .filter((st) => st.trip_id === selectedTrip)
-        .sort((a, b) => a.stop_sequence - b.stop_sequence);
-
-      const tripStopsList: StopWithTimes[] = [];
-
-      for (const stopTime of filteredStopTimes) {
-        const stopWithTime = stopWithTimesMap.get(stopTime.stop_id);
-        if (stopWithTime) {
-          tripStopsList.push({
-            stop: stopWithTime.stop,
-            stopTimes: [stopTime], // Only include the current stopTime
-          });
-        }
-      }
-
-      setTripStops(tripStopsList);
-    }
-  }, [selectedTrip, stopTimes, stopWithTimesMap]);
   if (loading) {
     return (
       <LoadingIndicator
@@ -234,19 +246,10 @@ const StopTimesMap: React.FC = () => {
     return <ErrorMessage message={error} />;
   }
 
-  // Create a polyline for the selected trip
-  const tripPolyline = tripStops.map(
-    (stopWithTime) =>
-      [
-        stopWithTime.stop.stop_lat,
-        stopWithTime.stop.stop_lon,
-      ] as LatLngExpression
-  );
-
   return (
     <div className="stop-times-map-container" style={{ height: "100vh" }}>
       <div
-        className="trip-selector"
+        className="trip-info"
         style={{
           position: "absolute",
           top: 10,
@@ -258,52 +261,56 @@ const StopTimesMap: React.FC = () => {
           boxShadow: "0 0 10px rgba(0,0,0,0.2)",
         }}
       >
-        <h3>Select Trip</h3>
-        <select
-          value={selectedTrip || ""}
-          onChange={(e) => setSelectedTrip(e.target.value)}
-          style={{ padding: "5px" }}
-        >
-          {availableTrips.map((tripId) => (
-            <option key={tripId} value={tripId}>
-              {tripId}
-            </option>
-          ))}
-        </select>
-        <div style={{ marginTop: "10px" }}>
-          <strong>Trip Stats:</strong>
-          <p>Stops: {tripStops.length}</p>
-        </div>
+        <h3>Active Trips</h3>
+        <p>Number of active trips: {activeTrips.length}</p>
       </div>
 
       <BaseMap className="stop-times-map">
-        {/* Display the selected trip route */}
-        {tripPolyline.length > 1 && (
-          <Polyline positions={tripPolyline} color="blue" weight={3} />
-        )}
-
-        {/* Display stops for the selected trip */}
-        <MarkerClusterGroup>
-          {tripStops.map((stopWithTime, index) => (
-            <Marker
-              key={`${stopWithTime.stop.stop_id}-${index}`}
-              position={[
+        {/* Display all active trip routes */}
+        {activeTrips.map((tripData) => {
+          const tripPolyline = tripData.stops.map(
+            (stopWithTime) =>
+              [
                 stopWithTime.stop.stop_lat,
                 stopWithTime.stop.stop_lon,
-              ]}
-              icon={defaultIcon}
-            >
-              <Popup>
-                <div>
-                  <h3>{stopWithTime.stop.stop_name}</h3>
-                  <p>Stop ID: {stopWithTime.stop.stop_id}</p>
-                  <p>Sequence: {stopWithTime.stopTimes[0].stop_sequence}</p>
-                  <p>Arrival: {stopWithTime.stopTimes[0].arrival_time}</p>
-                  <p>Departure: {stopWithTime.stopTimes[0].departure_time}</p>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
+              ] as LatLngExpression
+          );
+
+          return (
+            <Polyline
+              key={tripData.tripId}
+              positions={tripPolyline}
+              color={tripData.color}
+              weight={3}
+            />
+          );
+        })}
+
+        {/* Display stops for all active trips */}
+        <MarkerClusterGroup>
+          {activeTrips.flatMap((tripData) =>
+            tripData.stops.map((stopWithTime, index) => (
+              <Marker
+                key={`${tripData.tripId}-${stopWithTime.stop.stop_id}-${index}`}
+                position={[
+                  stopWithTime.stop.stop_lat,
+                  stopWithTime.stop.stop_lon,
+                ]}
+                icon={defaultIcon}
+              >
+                <Popup>
+                  <div>
+                    <h3>{stopWithTime.stop.stop_name}</h3>
+                    <p>Stop ID: {stopWithTime.stop.stop_id}</p>
+                    <p>Trip ID: {tripData.tripId}</p>
+                    <p>Sequence: {stopWithTime.stopTimes[0].stop_sequence}</p>
+                    <p>Arrival: {stopWithTime.stopTimes[0].arrival_time}</p>
+                    <p>Departure: {stopWithTime.stopTimes[0].departure_time}</p>
+                  </div>
+                </Popup>
+              </Marker>
+            ))
+          }
         </MarkerClusterGroup>
       </BaseMap>
     </div>
