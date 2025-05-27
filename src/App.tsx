@@ -4,7 +4,7 @@ import StopsMap from "./components/StopsMap";
 import ShapesMap from "./components/ShapesMap";
 
 function App() {
-  const [showShapes, setShowShapes] = useState<boolean>(true);
+  const [showShapes, setShowShapes] = useState<boolean>(false);
 
   return (
     <div className="App">
