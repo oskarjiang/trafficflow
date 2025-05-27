@@ -3,6 +3,8 @@ import { MapContainer, TileLayer, Polyline, Popup } from "react-leaflet";
 import { LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { SegmentInfo, ShapePoint, GeoJsonFeature } from "../types";
+import { parseShapeData } from "../utils/csvParser";
+import { MAP_CENTER, MAP_CONFIG } from "../constants/mapConfig";
 
 const ShapesMap: React.FC = () => {
   const [shapes, setShapes] = useState<GeoJsonFeature[]>([]);
@@ -10,40 +12,7 @@ const ShapesMap: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loadingProgress, setLoadingProgress] = useState<string>("");
   const [segmentsInfo, setSegmentsInfo] = useState<SegmentInfo | null>(null);
-  const [loadedSegments, setLoadedSegments] = useState<number>(0);
-
-  // Center of the map (same as StopsMap)
-  const center: LatLngExpression = [57.7089, 11.9746];
-
-  // Function to parse CSV data into shape points
-  const parseShapeData = (
-    text: string,
-    isFirstSegment: boolean
-  ): ShapePoint[] => {
-    const lines = text.split("\n");
-    const result: ShapePoint[] = [];
-
-    // Skip header if this isn't the first segment
-    const startIndex = isFirstSegment ? 1 : 0;
-
-    for (let i = startIndex; i < lines.length; i++) {
-      const line = lines[i].trim();
-      if (!line) continue;
-
-      const values = line.split(",");
-      if (values.length < 4) continue;
-
-      result.push({
-        shape_id: values[0],
-        shape_pt_lat: parseFloat(values[1]),
-        shape_pt_lon: parseFloat(values[2]),
-        shape_pt_sequence: parseInt(values[3], 10),
-        shape_dist_traveled: values.length > 4 ? parseFloat(values[4]) : 0,
-      });
-    }
-
-    return result;
-  };
+  const [loadedSegments, setLoadedSegments] = useState<number>(0); // Using centralized map configuration
 
   useEffect(() => {
     const loadShapes = async () => {
@@ -216,12 +185,11 @@ const ShapesMap: React.FC = () => {
           )}
         </div>
       )}
-      {error && <div className="error-message">{error}</div>}
-
+      {error && <div className="error-message">{error}</div>}{" "}
       {!loading && !error && (
         <MapContainer
-          center={center}
-          zoom={12}
+          center={MAP_CENTER}
+          zoom={MAP_CONFIG.defaultZoom}
           style={{ height: "100%", width: "100%" }}
         >
           <TileLayer

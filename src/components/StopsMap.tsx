@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { Icon, LatLngExpression } from "leaflet";
+import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import MarkerClusterGroup from "react-leaflet-markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
@@ -10,6 +10,8 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import { SegmentInfo, Stop } from "../types";
+import { parseStopData } from "../utils/csvParser";
+import { MAP_CENTER, MAP_CONFIG } from "../constants/mapConfig";
 
 const defaultIcon = new Icon({
   iconUrl: icon,
@@ -24,44 +26,7 @@ const StopsMap: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [loadingProgress, setLoadingProgress] = useState<string>("");
   const [segmentsInfo, setSegmentsInfo] = useState<SegmentInfo | null>(null);
-  const [loadedSegments, setLoadedSegments] = useState<number>(0);
-
-  // Center of the map (Göteborg, Sweden)
-  const center: LatLngExpression = [57.7089, 11.9746];
-
-  // Function to parse CSV data into stop objects
-  const parseStopData = (text: string, isFirstSegment: boolean): Stop[] => {
-    const lines = text.split("\n");
-    const result: Stop[] = [];
-
-    // Skip header if this isn't the first segment
-    const startIndex = isFirstSegment ? 1 : 0;
-
-    for (let i = startIndex; i < lines.length; i++) {
-      const line = lines[i].trim();
-      if (!line) continue;
-
-      const values = line.split(",");
-      if (values.length < 4) continue; // Validate coordinates before adding to result
-      const lat = parseFloat(values[2]);
-      const lon = parseFloat(values[3]);
-
-      if (!isNaN(lat) && !isNaN(lon) && isFinite(lat) && isFinite(lon)) {
-        result.push({
-          stop_id: values[0],
-          stop_name: values[1],
-          stop_lat: lat,
-          stop_lon: lon,
-          location_type: values.length > 4 ? parseInt(values[4], 10) : 0,
-          parent_station:
-            values.length > 5 && values[5] ? values[5] : undefined,
-          platform_code: values.length > 6 && values[6] ? values[6] : undefined,
-        });
-      }
-    }
-
-    return result;
-  };
+  const [loadedSegments, setLoadedSegments] = useState<number>(0);  // Using centralized map configuration
 
   useEffect(() => {
     const loadStops = async () => {
@@ -163,12 +128,11 @@ const StopsMap: React.FC = () => {
   if (error) {
     return <div className="error-message">{error}</div>;
   }
-  return (
-    <div className="map-container">
+  return (    <div className="map-container">
       <h2>Transit Stops Map</h2>
       <MapContainer
-        center={center}
-        zoom={12}
+        center={MAP_CENTER}
+        zoom={MAP_CONFIG.defaultZoom}
         style={{ height: "100%", width: "100%" }}
       >
         {" "}
