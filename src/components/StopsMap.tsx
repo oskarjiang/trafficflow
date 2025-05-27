@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { Marker, Popup } from "react-leaflet";
 import { Icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import MarkerClusterGroup from "react-leaflet-markercluster";
@@ -12,7 +12,7 @@ import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import { SegmentInfo, Stop } from "../types";
 import { parseStopData } from "../utils/csvParser";
 import { MAP_CENTER, MAP_CONFIG } from "../constants/mapConfig";
-import { ErrorMessage, LoadingIndicator } from "./common";
+import { BaseMap, ErrorMessage, LoadingIndicator } from "./common";
 
 const defaultIcon = new Icon({
   iconUrl: icon,
@@ -116,43 +116,32 @@ const StopsMap: React.FC = () => {
     return <ErrorMessage message={error} />;
   }
   return (
-    <div className="map-container">
-      <MapContainer
-        center={MAP_CENTER}
-        zoom={MAP_CONFIG.defaultZoom}
-        style={{ height: "100%", width: "100%" }}
+    <BaseMap center={MAP_CENTER} zoom={MAP_CONFIG.defaultZoom}>
+      <MarkerClusterGroup
+        chunkedLoading={true}
+        maxClusterRadius={50}
+        spiderfyOnMaxZoom={true}
+        disableClusteringAtZoom={16}
       >
-        {" "}
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <MarkerClusterGroup
-          chunkedLoading={true}
-          maxClusterRadius={50}
-          spiderfyOnMaxZoom={true}
-          disableClusteringAtZoom={16}
-        >
-          {stops.map((stop) => (
-            <Marker
-              key={stop.stop_id}
-              position={[stop.stop_lat, stop.stop_lon]}
-              icon={defaultIcon}
-            >
-              <Popup>
-                <div>
-                  <h3>{stop.stop_name}</h3>
-                  <p>ID: {stop.stop_id}</p>
-                  <p>
-                    Coordinates: {stop.stop_lat}, {stop.stop_lon}
-                  </p>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-        </MarkerClusterGroup>
-      </MapContainer>
-    </div>
+        {stops.map((stop) => (
+          <Marker
+            key={stop.stop_id}
+            position={[stop.stop_lat, stop.stop_lon]}
+            icon={defaultIcon}
+          >
+            <Popup>
+              <div>
+                <h3>{stop.stop_name}</h3>
+                <p>ID: {stop.stop_id}</p>
+                <p>
+                  Coordinates: {stop.stop_lat}, {stop.stop_lon}
+                </p>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+      </MarkerClusterGroup>
+    </BaseMap>
   );
 };
 

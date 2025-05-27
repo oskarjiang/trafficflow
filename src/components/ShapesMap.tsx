@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Polyline, Popup } from "react-leaflet";
+import { Polyline, Popup } from "react-leaflet";
 import { LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { SegmentInfo, ShapePoint, GeoJsonFeature } from "../types";
 import { parseShapeData } from "../utils/csvParser";
 import { MAP_CENTER, MAP_CONFIG } from "../constants/mapConfig";
-import { ErrorMessage, LoadingIndicator } from "./common";
+import { BaseMap, ErrorMessage, LoadingIndicator } from "./common";
 
 const ShapesMap: React.FC = () => {
   const [shapes, setShapes] = useState<GeoJsonFeature[]>([]);
@@ -178,30 +178,19 @@ const ShapesMap: React.FC = () => {
     return <ErrorMessage message={error} />;
   }
   return (
-    <div className="map-container">
-      <MapContainer
-        center={MAP_CENTER}
-        zoom={MAP_CONFIG.defaultZoom}
-        style={{ height: "100%", width: "100%" }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-
-        {shapes.map((shape, index) => (
-          <Polyline
-            key={`${shape.properties.shape_id}-${index}`}
-            positions={getPolylinePoints(shape.geometry.coordinates)}
-            color={shapeColors[shape.properties.shape_id]}
-            weight={3}
-            opacity={0.7}
-          >
-            <Popup>Shape ID: {shape.properties.shape_id}</Popup>
-          </Polyline>
-        ))}
-      </MapContainer>
-    </div>
+    <BaseMap center={MAP_CENTER} zoom={MAP_CONFIG.defaultZoom}>
+      {shapes.map((shape, index) => (
+        <Polyline
+          key={`${shape.properties.shape_id}-${index}`}
+          positions={getPolylinePoints(shape.geometry.coordinates)}
+          color={shapeColors[shape.properties.shape_id]}
+          weight={3}
+          opacity={0.7}
+        >
+          <Popup>Shape ID: {shape.properties.shape_id}</Popup>
+        </Polyline>
+      ))}
+    </BaseMap>
   );
 };
 
