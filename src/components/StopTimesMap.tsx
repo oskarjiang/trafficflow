@@ -219,22 +219,13 @@ const StopTimesMap: React.FC = () => {
       setTripStops(tripStopsList);
     }
   }, [selectedTrip, stopTimes, stopWithTimesMap]);
-
   if (loading) {
     return (
       <LoadingIndicator
-        message={`Loading stop times data... ${loadingProgress}`}
-        progress={
-          stopTimesSegmentsInfo
-            ? (
-                (loadedStopTimesSegments /
-                  Math.min(1, stopTimesSegmentsInfo.totalSegments)) *
-                100
-              ).toString()
-            : "0"
-        }
-        segmentsInfo={null}
-        loadedSegments={0}
+        message={`Loading stop times data...`}
+        progress={loadingProgress}
+        segmentsInfo={stopTimesSegmentsInfo}
+        loadedSegments={loadedStopTimesSegments}
       />
     );
   }
