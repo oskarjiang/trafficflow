@@ -115,23 +115,15 @@ const StopTimesMap: React.FC = () => {
         }
 
         const stopTimesInfo: SegmentInfo = await stopTimesInfoResponse.json();
-        setStopTimesSegmentsInfo(stopTimesInfo);
-
-        // Step 4: Load stop times segments sequentially (only the first segment for demo)
+        setStopTimesSegmentsInfo(stopTimesInfo); // Step 4: Load all stop times segments sequentially
         const allStopTimes: StopTime[] = [];
         const stopWithTimesMap = new Map<string, StopWithTimes>();
-
-        // Only load the first segment for demo purposes
-        const maxSegmentsToLoad = 1;
-
-        for (
-          let i = 0;
-          i < Math.min(maxSegmentsToLoad, stopTimesInfo.segments.length);
-          i++
-        ) {
+        for (let i = 0; i < stopTimesInfo.segments.length; i++) {
           const segment = stopTimesInfo.segments[i];
           setLoadingProgress(
-            `Loading stop times segment ${i + 1} of ${maxSegmentsToLoad}...`
+            `Loading stop times segment ${i + 1} of ${
+              stopTimesInfo.segments.length
+            }...`
           );
 
           const segmentResponse = await fetch(
@@ -163,14 +155,11 @@ const StopTimesMap: React.FC = () => {
               stopWithTimesMap.get(stopTime.stop_id)?.stopTimes.push(stopTime);
             }
           }
-
           setLoadedStopTimesSegments(i + 1);
           setLoadingProgress(
-            `Processed ${
-              i + 1
-            } of ${maxSegmentsToLoad} stop times segments. Found ${
-              allStopTimes.length
-            } stop times.`
+            `Processed ${i + 1} of ${
+              stopTimesInfo.segments.length
+            } stop times segments. Found ${allStopTimes.length} stop times.`
           );
         }
 
