@@ -44,11 +44,6 @@ const ShapesMap: React.FC = () => {
   const [segmentsInfo, setSegmentsInfo] = useState<SegmentInfo | null>(null);
   const [loadedSegments, setLoadedSegments] = useState<number>(0);
 
-  // Get the max number of shapes from .env (default to 100 if not specified)
-  const MAX_SHAPES = process.env.MAX_SHAPES
-    ? parseInt(process.env.MAX_SHAPES, 10)
-    : 100;
-
   // Center of the map (same as StopsMap)
   const center: LatLngExpression = [57.7089, 11.9746];
 
@@ -96,15 +91,11 @@ const ShapesMap: React.FC = () => {
 
         const info: SegmentInfo = await infoResponse.json();
         setSegmentsInfo(info);
-        // Step 2: Load segments sequentially until we reach MAX_SHAPES
+        // Step 2: Load segments sequentially
         const shapePointsMap = new Map<string, ShapePoint[]>();
         let uniqueShapeIds = new Set<string>();
 
         for (let i = 0; i < info.segments.length; i++) {
-          if (uniqueShapeIds.size >= MAX_SHAPES) {
-            break; // Stop if we've already gathered enough shapes
-          }
-
           const segment = info.segments[i];
           setLoadingProgress(
             `Loading segment ${i + 1} of ${info.segments.length}...`
@@ -131,14 +122,6 @@ const ShapesMap: React.FC = () => {
           );
 
           for (const point of shapePoints) {
-            // If we have enough shapes and this is a new shape, skip it
-            if (
-              uniqueShapeIds.size >= MAX_SHAPES &&
-              !shapePointsMap.has(point.shape_id)
-            ) {
-              continue;
-            }
-
             // Add new shape to map
             if (!shapePointsMap.has(point.shape_id)) {
               shapePointsMap.set(point.shape_id, []);
@@ -156,11 +139,6 @@ const ShapesMap: React.FC = () => {
               uniqueShapeIds.size
             } shapes.`
           );
-
-          // If we have enough shapes, stop loading more segments
-          if (uniqueShapeIds.size >= MAX_SHAPES) {
-            break;
-          }
         }
 
         setLoadingProgress(
@@ -213,7 +191,7 @@ const ShapesMap: React.FC = () => {
     };
 
     loadShapes();
-  }, [MAX_SHAPES]);
+  }, []);
   // Function to convert GeoJSON coordinates to LatLngExpression[]
   const getPolylinePoints = (coordinates: number[][]): LatLngExpression[] => {
     return coordinates
