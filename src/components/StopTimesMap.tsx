@@ -1,40 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Marker, Popup, Polyline } from "react-leaflet";
-import { Icon, LatLngExpression } from "leaflet";
+import { Polyline } from "react-leaflet";
+import { LatLngExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import MarkerClusterGroup from "react-leaflet-markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
 // Fix the default marker icon issue in React-Leaflet
-import icon from "leaflet/dist/images/marker-icon.png";
-import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import { SegmentInfo, Stop, StopTime } from "../types";
 import { parseStopTimeData, parseStopData } from "../utils/csvParser";
 import { BaseMap, ErrorMessage, LoadingIndicator } from "./common";
 import { getActiveTrips } from "../utils/timeUtils";
 
-const defaultIcon = new Icon({
-  iconUrl: icon,
-  shadowUrl: iconShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
-
 interface StopWithTimes {
   stop: Stop;
   stopTimes: StopTime[];
 }
-
-// Generate random colors for trip routes
-const getRandomColor = (): string => {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-};
 
 interface TripDisplayData {
   tripId: string;
@@ -221,23 +201,6 @@ const StopTimesMap: React.FC = () => {
 
   return (
     <div className="stop-times-map-container" style={{ height: "100vh" }}>
-      <div
-        className="trip-info"
-        style={{
-          position: "absolute",
-          top: 10,
-          right: 10,
-          zIndex: 1000,
-          backgroundColor: "white",
-          padding: "10px",
-          borderRadius: "5px",
-          boxShadow: "0 0 10px rgba(0,0,0,0.2)",
-        }}
-      >
-        <h3>Active Trips</h3>
-        <p>Number of active trips: {activeTrips.length}</p>
-      </div>
-
       <BaseMap className="stop-times-map">
         {/* Display all active trip routes */}
         {activeTrips.map((tripData) => {
@@ -258,36 +221,12 @@ const StopTimesMap: React.FC = () => {
             />
           );
         })}
-
-        {/* Display stops for all active trips */}
-        <MarkerClusterGroup>
-          {activeTrips.flatMap((tripData) =>
-            tripData.stops.map((stopWithTime, index) => (
-              <Marker
-                key={`${tripData.tripId}-${stopWithTime.stop.stop_id}-${index}`}
-                position={[
-                  stopWithTime.stop.stop_lat,
-                  stopWithTime.stop.stop_lon,
-                ]}
-                icon={defaultIcon}
-              >
-                <Popup>
-                  <div>
-                    <h3>{stopWithTime.stop.stop_name}</h3>
-                    <p>Stop ID: {stopWithTime.stop.stop_id}</p>
-                    <p>Trip ID: {tripData.tripId}</p>
-                    <p>Sequence: {stopWithTime.stopTimes[0].stop_sequence}</p>
-                    <p>Arrival: {stopWithTime.stopTimes[0].arrival_time}</p>
-                    <p>Departure: {stopWithTime.stopTimes[0].departure_time}</p>
-                  </div>
-                </Popup>
-              </Marker>
-            ))
-          )}
-        </MarkerClusterGroup>
       </BaseMap>
     </div>
   );
 };
 
 export default StopTimesMap;
+function getRandomColor(): string {
+  throw new Error("Function not implemented.");
+}
