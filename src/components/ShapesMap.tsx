@@ -45,8 +45,8 @@ const ShapesMap: React.FC = () => {
   const [loadedSegments, setLoadedSegments] = useState<number>(0);
 
   // Get the max number of shapes from .env (default to 100 if not specified)
-  const MAX_SHAPES = process.env.REACT_APP_MAX_SHAPES
-    ? parseInt(process.env.REACT_APP_MAX_SHAPES, 10)
+  const MAX_SHAPES = process.env.MAX_SHAPES
+    ? parseInt(process.env.MAX_SHAPES, 10)
     : 100;
 
   // Center of the map (same as StopsMap)
@@ -172,18 +172,16 @@ const ShapesMap: React.FC = () => {
 
         shapePointsMap.forEach((points, shapeId) => {
           // Sort by sequence
-          points.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence);          // Create coordinates array with validation
+          points.sort((a, b) => a.shape_pt_sequence - b.shape_pt_sequence); // Create coordinates array with validation
           const coordinates = points
-            .filter(point => 
-              !isNaN(point.shape_pt_lon) && 
-              !isNaN(point.shape_pt_lat) &&
-              isFinite(point.shape_pt_lon) && 
-              isFinite(point.shape_pt_lat)
+            .filter(
+              (point) =>
+                !isNaN(point.shape_pt_lon) &&
+                !isNaN(point.shape_pt_lat) &&
+                isFinite(point.shape_pt_lon) &&
+                isFinite(point.shape_pt_lat)
             )
-            .map((point) => [
-              point.shape_pt_lon,
-              point.shape_pt_lat,
-            ]);
+            .map((point) => [point.shape_pt_lon, point.shape_pt_lat]);
 
           // Only add feature if it has valid coordinates
           if (coordinates.length > 0) {
@@ -219,12 +217,13 @@ const ShapesMap: React.FC = () => {
   // Function to convert GeoJSON coordinates to LatLngExpression[]
   const getPolylinePoints = (coordinates: number[][]): LatLngExpression[] => {
     return coordinates
-      .filter(coord => 
-        coord.length === 2 && 
-        !isNaN(coord[0]) && 
-        !isNaN(coord[1]) && 
-        isFinite(coord[0]) && 
-        isFinite(coord[1])
+      .filter(
+        (coord) =>
+          coord.length === 2 &&
+          !isNaN(coord[0]) &&
+          !isNaN(coord[1]) &&
+          isFinite(coord[0]) &&
+          isFinite(coord[1])
       )
       .map((coord) => [coord[1], coord[0]] as LatLngExpression);
   };
