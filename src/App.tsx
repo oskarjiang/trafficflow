@@ -11,23 +11,21 @@ function App() {
       <header className="App-header">
         <h1>TrafficFlow - Transit Visualization</h1>
         <div className="view-toggle">
-          <button 
+          <button
             onClick={() => setShowShapes(false)}
-            className={!showShapes ? 'active' : ''}
+            className={!showShapes ? "active" : ""}
           >
             View Stops
           </button>
-          <button 
+          <button
             onClick={() => setShowShapes(true)}
-            className={showShapes ? 'active' : ''}
+            className={showShapes ? "active" : ""}
           >
             View Shapes
           </button>
         </div>
       </header>
-      <main>
-        {showShapes ? <ShapesMap /> : <StopsMap />}
-      </main>
+      <main>{showShapes ? <ShapesMap /> : <StopsMap />}</main>
       <footer>
         <p>Data from GTFS feed - Västtrafik</p>
       </footer>
