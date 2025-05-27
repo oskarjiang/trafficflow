@@ -41,7 +41,8 @@ const StopsMap: React.FC = () => {
           throw new Error(`Failed to fetch stops: ${response.statusText}`);
         }
         const stopsData: Stop[] = await response.json();
-        setStops(stopsData);
+        // Take only the first 100 elements for better performance
+        setStops(stopsData.slice(0, 100));
         setLoading(false);
       } catch (err) {
         console.error("Error loading stops:", err);
