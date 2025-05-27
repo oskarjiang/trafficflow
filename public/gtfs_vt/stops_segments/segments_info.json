@@ -1,0 +1,28 @@
+{
+  "totalSegments": 5,
+  "totalLines": 27482,
+  "dataLines": 27481,
+  "linesPerSegment": 5497,
+  "segments": [
+    {
+      "filename": "stops_part1.txt",
+      "index": 1
+    },
+    {
+      "filename": "stops_part2.txt",
+      "index": 2
+    },
+    {
+      "filename": "stops_part3.txt",
+      "index": 3
+    },
+    {
+      "filename": "stops_part4.txt",
+      "index": 4
+    },
+    {
+      "filename": "stops_part5.txt",
+      "index": 5
+    }
+  ]
+}

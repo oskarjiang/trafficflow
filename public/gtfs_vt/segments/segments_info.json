@@ -1,0 +1,48 @@
+{
+  "totalSegments": 10,
+  "totalLines": 6326332,
+  "dataLines": 6326331,
+  "linesPerSegment": 632634,
+  "segments": [
+    {
+      "filename": "shapes_part1.txt",
+      "index": 1
+    },
+    {
+      "filename": "shapes_part2.txt",
+      "index": 2
+    },
+    {
+      "filename": "shapes_part3.txt",
+      "index": 3
+    },
+    {
+      "filename": "shapes_part4.txt",
+      "index": 4
+    },
+    {
+      "filename": "shapes_part5.txt",
+      "index": 5
+    },
+    {
+      "filename": "shapes_part6.txt",
+      "index": 6
+    },
+    {
+      "filename": "shapes_part7.txt",
+      "index": 7
+    },
+    {
+      "filename": "shapes_part8.txt",
+      "index": 8
+    },
+    {
+      "filename": "shapes_part9.txt",
+      "index": 9
+    },
+    {
+      "filename": "shapes_part10.txt",
+      "index": 10
+    }
+  ]
+}

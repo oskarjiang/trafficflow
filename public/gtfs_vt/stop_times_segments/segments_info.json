@@ -1,0 +1,104 @@
+{
+  "totalSegments": 24,
+  "totalLines": 2390637,
+  "dataLines": 2390636,
+  "linesPerSegment": 100000,
+  "segments": [
+    {
+      "filename": "stop_times_part1.txt",
+      "index": 0
+    },
+    {
+      "filename": "stop_times_part2.txt",
+      "index": 1
+    },
+    {
+      "filename": "stop_times_part3.txt",
+      "index": 2
+    },
+    {
+      "filename": "stop_times_part4.txt",
+      "index": 3
+    },
+    {
+      "filename": "stop_times_part5.txt",
+      "index": 4
+    },
+    {
+      "filename": "stop_times_part6.txt",
+      "index": 5
+    },
+    {
+      "filename": "stop_times_part7.txt",
+      "index": 6
+    },
+    {
+      "filename": "stop_times_part8.txt",
+      "index": 7
+    },
+    {
+      "filename": "stop_times_part9.txt",
+      "index": 8
+    },
+    {
+      "filename": "stop_times_part10.txt",
+      "index": 9
+    },
+    {
+      "filename": "stop_times_part11.txt",
+      "index": 10
+    },
+    {
+      "filename": "stop_times_part12.txt",
+      "index": 11
+    },
+    {
+      "filename": "stop_times_part13.txt",
+      "index": 12
+    },
+    {
+      "filename": "stop_times_part14.txt",
+      "index": 13
+    },
+    {
+      "filename": "stop_times_part15.txt",
+      "index": 14
+    },
+    {
+      "filename": "stop_times_part16.txt",
+      "index": 15
+    },
+    {
+      "filename": "stop_times_part17.txt",
+      "index": 16
+    },
+    {
+      "filename": "stop_times_part18.txt",
+      "index": 17
+    },
+    {
+      "filename": "stop_times_part19.txt",
+      "index": 18
+    },
+    {
+      "filename": "stop_times_part20.txt",
+      "index": 19
+    },
+    {
+      "filename": "stop_times_part21.txt",
+      "index": 20
+    },
+    {
+      "filename": "stop_times_part22.txt",
+      "index": 21
+    },
+    {
+      "filename": "stop_times_part23.txt",
+      "index": 22
+    },
+    {
+      "filename": "stop_times_part24.txt",
+      "index": 23
+    }
+  ]
+}
