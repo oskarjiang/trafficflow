@@ -8,11 +8,12 @@ import {
 } from "../utils/timeUtils";
 import { StopWithTimes } from "../types";
 
-// Create a custom icon for the animated dot
+// Create a custom icon for the animated transit vehicle
 const vehicleIcon = new Icon({
-  iconUrl: "/trafficflow_icon.svg", // Using the existing icon from public folder
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
+  iconUrl: "/trafficflow_app_icon.svg", // Custom designed icon that fits the app's purpose
+  iconSize: [32, 32],
+  iconAnchor: [16, 16], // Centered anchor point
+  className: "vehicle-marker", // Add a class for potential CSS animations
 });
 
 interface AnimatedTripMarkerProps {
@@ -126,20 +127,49 @@ const AnimatedTripMarker: React.FC<AnimatedTripMarkerProps> = ({
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, [stops, latestPassedStopIndex]);
+  }, [stops, latestPassedStopIndex, currentSegmentIndex]);
 
   // Don't render anything until we have a position
   if (!position) return null;
-
   return (
     <Marker position={position} icon={vehicleIcon}>
       <Popup>
-        <div>
-          <h3>Trip ID: {tripId}</h3>
+        <div
+          style={{
+            padding: "5px",
+            borderLeft: `4px solid ${color}`,
+            backgroundColor: "#f8f9fa",
+          }}
+        >
+          <h3 style={{ margin: "2px 0", color: "#1565C0" }}>Transit Vehicle</h3>
+          <p style={{ fontSize: "0.8em", color: "#757575", margin: "2px 0" }}>
+            ID: {tripId}
+          </p>
           {currentSegmentIndex < stops.length - 1 && (
             <>
-              <p>From: {stops[currentSegmentIndex]?.stop.stop_name}</p>
-              <p>To: {stops[currentSegmentIndex + 1]?.stop.stop_name}</p>
+              <div style={{ margin: "8px 0" }}>
+                <div style={{ fontWeight: "bold", color: "#424242" }}>
+                  Current Route:
+                </div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ marginRight: "5px" }}>📍</span>
+                  <p style={{ margin: "2px 0" }}>
+                    {stops[currentSegmentIndex]?.stop.stop_name}
+                  </p>
+                </div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ marginRight: "5px" }}>🔜</span>
+                  <p style={{ margin: "2px 0" }}>
+                    {stops[currentSegmentIndex + 1]?.stop.stop_name}
+                  </p>
+                </div>
+              </div>
+              {stops[currentSegmentIndex + 1]?.stopTimes[0]?.arrival_time && (
+                <p style={{ fontSize: "0.9em", margin: "5px 0" }}>
+                  <span style={{ fontWeight: "bold" }}>ETA: </span>
+                  {stops[currentSegmentIndex + 1].stopTimes[0].arrival_time}
+                </p>
+              )}
             </>
           )}
         </div>

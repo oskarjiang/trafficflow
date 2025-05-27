@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Main vehicle body -->
+  <rect x="4" y="6" width="16" height="12" rx="2" fill="#1A73E8" stroke="#0D47A1" stroke-width="1.5"/>
+  
+  <!-- Windows -->
+  <rect x="6" y="8" width="3" height="2.5" rx="0.5" fill="#E3F2FD"/>
+  <rect x="10.5" y="8" width="3" height="2.5" rx="0.5" fill="#E3F2FD"/>
+  <rect x="15" y="8" width="3" height="2.5" rx="0.5" fill="#E3F2FD"/>
+  
+  <!-- Wheels -->
+  <circle cx="7" cy="18" r="2" fill="#424242" stroke="#212121" stroke-width="0.5"/>
+  <circle cx="17" cy="18" r="2" fill="#424242" stroke="#212121" stroke-width="0.5"/>
+  
+  <!-- Headlight -->
+  <rect x="3.75" y="10.5" width="0.5" height="2" rx="0.25" fill="#FFF9C4"/>
+  
+  <!-- Taillight -->
+  <rect x="19.75" y="10.5" width="0.5" height="2" rx="0.25" fill="#EF5350"/>
+  
+  <!-- Route indicator -->
+  <rect x="8" y="3" width="8" height="3" rx="1" fill="#E3F2FD" stroke="#0D47A1" stroke-width="0.75"/>
+  <text x="12" y="5.25" font-family="Arial, sans-serif" font-size="2.5" fill="#0D47A1" text-anchor="middle" dominant-baseline="middle">BUS</text>
+  
+  <!-- Pulsing circle animation for real-time movement -->
+  <circle cx="12" cy="12" r="10" fill="rgba(25, 118, 210, 0.1)" stroke="rgba(25, 118, 210, 0.5)" stroke-width="0.5">
+    <animate attributeName="r" values="9;10;9" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
