@@ -26,3 +26,5 @@ yarn-error.log*
 /gtfs_vt
 
 .env
+
+public/gtfs_vt/
