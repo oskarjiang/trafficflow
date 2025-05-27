@@ -117,7 +117,6 @@ const StopsMap: React.FC = () => {
   }
   return (
     <div className="map-container">
-      <h2>Transit Stops Map</h2>
       <MapContainer
         center={MAP_CENTER}
         zoom={MAP_CONFIG.defaultZoom}

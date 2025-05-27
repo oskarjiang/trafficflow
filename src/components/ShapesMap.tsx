@@ -164,41 +164,43 @@ const ShapesMap: React.FC = () => {
     });
     return colors;
   }, [shapes]);
+  if (loading) {
+    return (
+      <LoadingIndicator
+        message="Loading stops data..."
+        progress={loadingProgress}
+        segmentsInfo={segmentsInfo}
+        loadedSegments={loadedSegments}
+      />
+    );
+  }
+  if (error) {
+    return <ErrorMessage message={error} />;
+  }
   return (
-    <div style={{ height: "80vh", width: "100%" }}>
-      {loading && (
-        <LoadingIndicator
-          message="Loading shapes data..."
-          progress={loadingProgress}
-          segmentsInfo={segmentsInfo}
-          loadedSegments={loadedSegments}
+    <div className="map-container">
+      <MapContainer
+        center={MAP_CENTER}
+        zoom={MAP_CONFIG.defaultZoom}
+        style={{ height: "100%", width: "100%" }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-      )}
-      <ErrorMessage message={error} />
-      {!loading && !error && (
-        <MapContainer
-          center={MAP_CENTER}
-          zoom={MAP_CONFIG.defaultZoom}
-          style={{ height: "100%", width: "100%" }}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
 
-          {shapes.map((shape, index) => (
-            <Polyline
-              key={`${shape.properties.shape_id}-${index}`}
-              positions={getPolylinePoints(shape.geometry.coordinates)}
-              color={shapeColors[shape.properties.shape_id]}
-              weight={3}
-              opacity={0.7}
-            >
-              <Popup>Shape ID: {shape.properties.shape_id}</Popup>
-            </Polyline>
-          ))}
-        </MapContainer>
-      )}
+        {shapes.map((shape, index) => (
+          <Polyline
+            key={`${shape.properties.shape_id}-${index}`}
+            positions={getPolylinePoints(shape.geometry.coordinates)}
+            color={shapeColors[shape.properties.shape_id]}
+            weight={3}
+            opacity={0.7}
+          >
+            <Popup>Shape ID: {shape.properties.shape_id}</Popup>
+          </Polyline>
+        ))}
+      </MapContainer>
     </div>
   );
 };
