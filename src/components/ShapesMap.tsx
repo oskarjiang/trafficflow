@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import { SegmentInfo, ShapePoint, GeoJsonFeature } from "../types";
 import { parseShapeData } from "../utils/csvParser";
 import { MAP_CENTER, MAP_CONFIG } from "../constants/mapConfig";
-import { ErrorMessage } from "./common";
+import { ErrorMessage, LoadingIndicator } from "./common";
 
 const ShapesMap: React.FC = () => {
   const [shapes, setShapes] = useState<GeoJsonFeature[]>([]);
@@ -167,24 +167,12 @@ const ShapesMap: React.FC = () => {
   return (
     <div style={{ height: "80vh", width: "100%" }}>
       {loading && (
-        <div className="loading-container">
-          <div>Loading shapes data...</div>
-          {loadingProgress && (
-            <div className="progress-message">{loadingProgress}</div>
-          )}
-          {segmentsInfo && (
-            <div className="progress-bar-container">
-              <div
-                className="progress-bar"
-                style={{
-                  width: `${
-                    (loadedSegments / segmentsInfo.totalSegments) * 100
-                  }%`,
-                }}
-              ></div>
-            </div>
-          )}
-        </div>
+        <LoadingIndicator
+          message="Loading shapes data..."
+          progress={loadingProgress}
+          segmentsInfo={segmentsInfo}
+          loadedSegments={loadedSegments}
+        />
       )}
       <ErrorMessage message={error} />
       {!loading && !error && (

@@ -12,7 +12,7 @@ import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import { SegmentInfo, Stop } from "../types";
 import { parseStopData } from "../utils/csvParser";
 import { MAP_CENTER, MAP_CONFIG } from "../constants/mapConfig";
-import { ErrorMessage } from "./common";
+import { ErrorMessage, LoadingIndicator } from "./common";
 
 const defaultIcon = new Icon({
   iconUrl: icon,
@@ -102,27 +102,14 @@ const StopsMap: React.FC = () => {
 
     loadStops();
   }, []);
-
   if (loading) {
     return (
-      <div className="loading-container">
-        <div>Loading stops data...</div>
-        {loadingProgress && (
-          <div className="progress-message">{loadingProgress}</div>
-        )}
-        {segmentsInfo && (
-          <div className="progress-bar-container">
-            <div
-              className="progress-bar"
-              style={{
-                width: `${
-                  (loadedSegments / (segmentsInfo?.totalSegments || 1)) * 100
-                }%`,
-              }}
-            ></div>
-          </div>
-        )}
-      </div>
+      <LoadingIndicator
+        message="Loading stops data..."
+        progress={loadingProgress}
+        segmentsInfo={segmentsInfo}
+        loadedSegments={loadedSegments}
+      />
     );
   }
   if (error) {
