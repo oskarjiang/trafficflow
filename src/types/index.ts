@@ -59,3 +59,9 @@ export interface StopTime {
   pickup_booking_rule_id?: string;
   drop_off_booking_rule_id?: string;
 }
+
+// Define the StopWithTimes interface (for use with animated markers)
+export interface StopWithTimes {
+  stop: Stop;
+  stopTimes: StopTime[];
+}

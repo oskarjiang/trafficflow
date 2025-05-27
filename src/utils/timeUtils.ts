@@ -118,3 +118,41 @@ export const findLatestPassedStopIndex = (
 
   return latestPassedIndex;
 };
+
+/**
+ * Calculate the current position of a vehicle between stops
+ * @param fromStop Coordinates of the departure stop [lat, lng]
+ * @param toStop Coordinates of the destination stop [lat, lng]
+ * @param departureTime Departure time in minutes since midnight
+ * @param arrivalTime Arrival time in minutes since midnight
+ * @param currentTime Current time in minutes since midnight
+ * @returns Interpolated position [lat, lng]
+ */
+export const calculateCurrentPosition = (
+  fromStop: [number, number],
+  toStop: [number, number],
+  departureTime: number,
+  arrivalTime: number,
+  currentTime: number
+): [number, number] => {
+  // If currentTime is before departure, return the start position
+  if (currentTime <= departureTime) {
+    return fromStop;
+  }
+
+  // If currentTime is after arrival, return the end position
+  if (currentTime >= arrivalTime) {
+    return toStop;
+  }
+
+  // Calculate the fraction of the journey completed
+  const totalTime = arrivalTime - departureTime;
+  const elapsedTime = currentTime - departureTime;
+  const fraction = elapsedTime / totalTime;
+
+  // Linear interpolation between the two points
+  const lat = fromStop[0] + fraction * (toStop[0] - fromStop[0]);
+  const lng = fromStop[1] + fraction * (toStop[1] - fromStop[1]);
+
+  return [lat, lng];
+};

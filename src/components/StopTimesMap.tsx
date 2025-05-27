@@ -6,19 +6,15 @@ import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 
 // Fix the default marker icon issue in React-Leaflet
-import { SegmentInfo, Stop, StopTime } from "../types";
+import { SegmentInfo, Stop, StopTime, StopWithTimes } from "../types";
 import { parseStopTimeData, parseStopData } from "../utils/csvParser";
 import { BaseMap, ErrorMessage, LoadingIndicator } from "./common";
+import AnimatedTripMarker from "./AnimatedTripMarker";
 import {
   getActiveTrips,
   currentTimeToMinutes,
   timeStringToMinutes,
 } from "../utils/timeUtils";
-
-interface StopWithTimes {
-  stop: Stop;
-  stopTimes: StopTime[];
-}
 
 interface TripDisplayData {
   tripId: string;
@@ -261,12 +257,20 @@ const StopTimesMap: React.FC = () => {
 
           // Only render if we have at least 2 points for the polyline
           return tripPolyline.length >= 2 ? (
-            <Polyline
-              key={tripData.tripId}
-              positions={tripPolyline}
-              color={tripData.color}
-              weight={3}
-            />
+            <React.Fragment key={tripData.tripId}>
+              <Polyline
+                positions={tripPolyline}
+                color={tripData.color}
+                weight={3}
+              />
+              {/* Add the animated trip marker */}
+              <AnimatedTripMarker
+                tripId={tripData.tripId}
+                stops={tripData.stops}
+                color={tripData.color}
+                latestPassedStopIndex={tripData.latestPassedStopIndex}
+              />
+            </React.Fragment>
           ) : null;
         })}
       </BaseMap>
