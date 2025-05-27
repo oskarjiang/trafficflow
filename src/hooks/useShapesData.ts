@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { GeoJsonFeature, ShapePoint } from "../types";
 import { parseShapeData } from "../utils/csvParser";
 import { useDataFetching } from "./useDataFetching";
+import { getRandomColor } from "../utils/mapUtils";
 
 export function useShapesData() {
   // Process shape points into GeoJSON features
@@ -65,16 +66,6 @@ export function useShapesData() {
     dataParser: parseShapeData,
     dataProcessor: processShapePointsToGeoJson,
   });
-
-  // Generate random color for each shape
-  const getRandomColor = () => {
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  };
 
   // Memoize colors by shape_id to ensure consistency
   const shapeColors = useMemo(() => {
